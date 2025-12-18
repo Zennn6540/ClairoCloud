@@ -41,6 +41,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
+// Handle creating a new user from modal
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'create_user') {
+    $username = trim($_POST['username'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $full_name = trim($_POST['full_name'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $role = ($_POST['role'] ?? 'user') === 'admin' ? 1 : 0;
+
+    if ($username && $email && $password) {
+        $hashed = password_hash($password, PASSWORD_BCRYPT);
+        $stmt = getDB()->prepare("INSERT INTO users (username, email, password, full_name, is_admin) VALUES (?, ?, ?, ?, ?)");
+        try {
+            $stmt->execute([$username, $email, $hashed, $full_name ?: null, $role]);
+            $success = "User {$username} berhasil dibuat.";
+            // reload users list
+            header('Location: ' . $_SERVER['REQUEST_URI']);
+            exit;
+        } catch (Exception $e) {
+            $error = 'Gagal membuat user: ' . $e->getMessage();
+        }
+    } else {
+        $error = 'Username, email, dan password wajib diisi.';
+    }
+}
+
 // Get all users
 $users = fetchAll("
     SELECT id, username, full_name, email, storage_quota, storage_used,
@@ -218,6 +243,9 @@ function generatePDFContent() {
                 <button class="btn btn-primary btn-sm" onclick="exportPDF()">
                     <i class="fa fa-file-pdf me-1"></i> Export PDF
                 </button>
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#userModal">
+                    <i class="fa fa-user-plus me-1"></i> Tambah User
+                </button>
                 <button class="btn btn-outline-secondary btn-sm" onclick="location.reload()">
                     <i class="fa fa-refresh me-1"></i> Refresh
                 </button>
@@ -394,6 +422,51 @@ function generatePDFContent() {
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-primary">Tambah Storage</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit User Modal -->
+<div class="modal fade" id="userModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="action" value="create_user">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" name="full_name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Peran</label>
+                        <select name="role" class="form-select">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <div class="form-text">Pilih apakah user biasa atau admin.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
