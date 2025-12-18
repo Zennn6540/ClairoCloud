@@ -53,10 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $now = date('Y-m-d H:i:s');
         $isAdmin = ($role === 'admin') ? 1 : 0;
 
-        $stmt = getDB()->prepare("\
-            INSERT INTO users (username, email, full_name, password, storage_quota, storage_used, is_active, is_admin, created_at)\
-            VALUES (?, ?, ?, ?, ?, 0, 1, ?, ?)\
-        ");
+        $sql = "INSERT INTO users (username, email, full_name, password, storage_quota, storage_used, is_active, is_admin, created_at) VALUES (?, ?, ?, ?, ?, 0, 1, ?, ?)";
+        $stmt = getDB()->prepare($sql);
 
         if ($stmt->execute([$username, $email, $fullName, $hashedPassword, $storageBytes, $isAdmin, $now])) {
             $message = "User '{$username}' berhasil ditambahkan dengan storage {$storageGb} GB";
