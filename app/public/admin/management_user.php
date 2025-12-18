@@ -69,19 +69,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 // Handle delete user action
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_user') {
     $userId = intval($_POST['user_id'] ?? 0);
-    if ($userId > 0 && $userId != $_SESSION['user_id']) { // Prevent self-deletion
-        $stmt = getDB()->prepare("DELETE FROM users WHERE id = ? AND is_admin = 0");
-        if ($stmt->execute([$userId])) {
-            $message = 'User berhasil dihapus';
-            $messageType = 'success';
-        } else {
-            $message = 'Gagal menghapus user';
-            $messageType = 'danger';
-        }
-    } else {
-        $message = 'Tidak dapat menghapus user ini';
+
+    if ($userId <= 0) {
+        $message = 'User tidak valid';
         $messageType = 'danger';
+    } elseif ($userId == ($_SESSION['user_id'] ?? 0)) {
+        // Prevent self-deletion
+        $message = 'Tidak dapat menghapus akun sendiri';
+        $messageType = 'danger';
+    } else {
+        // Ensure target exists
+        $target = fetchOne('SELECT id, is_admin FROM users WHERE id = ?', [$userId]);
+        if (!$target) {
+            $message = 'User tidak ditemukan';
+            $messageType = 'danger';
+        } else {
+            // If target is admin, ensure there is more than one admin remaining
+            if (!empty($target['is_admin'])) {
+                $adminCountRow = fetchOne('SELECT COUNT(*) AS c FROM users WHERE is_admin = 1');
+                $adminCount = intval($adminCountRow['c'] ?? 0);
+                if ($adminCount <= 1) {
+                    $message = 'Tidak dapat menghapus admin terakhir';
+                    $messageType = 'danger';
+                    goto _delete_done;
+                }
+            }
+
+            // Proceed to delete
+            $delStmt = getDB()->prepare('DELETE FROM users WHERE id = ?');
+            if ($delStmt->execute([$userId])) {
+                $message = 'User berhasil dihapus';
+                $messageType = 'success';
+            } else {
+                $message = 'Gagal menghapus user';
+                $messageType = 'danger';
+            }
+        }
     }
+    _delete_done:;
 }
 
 // Handle update user action
