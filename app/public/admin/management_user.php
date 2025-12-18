@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $password = $_POST['password'] ?? '';
     $passwordConfirm = $_POST['password_confirm'] ?? '';
     $storageGb = intval($_POST['storage_gb'] ?? 0);
+    $role = ($_POST['role'] ?? 'user');
 
     // Validation
     $errors = [];
@@ -50,13 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $storageBytes = $storageGb * 1024 * 1024 * 1024;
         $now = date('Y-m-d H:i:s');
+        $isAdmin = ($role === 'admin') ? 1 : 0;
 
-        $stmt = getDB()->prepare("
-            INSERT INTO users (username, email, full_name, password, storage_quota, storage_used, is_active, is_admin, created_at)
-            VALUES (?, ?, ?, ?, ?, 0, 1, 0, ?)
+        $stmt = getDB()->prepare("\
+            INSERT INTO users (username, email, full_name, password, storage_quota, storage_used, is_active, is_admin, created_at)\
+            VALUES (?, ?, ?, ?, ?, 0, 1, ?, ?)\
         ");
-        
-        if ($stmt->execute([$username, $email, $fullName, $hashedPassword, $storageBytes, $now])) {
+
+        if ($stmt->execute([$username, $email, $fullName, $hashedPassword, $storageBytes, $isAdmin, $now])) {
             $message = "User '{$username}' berhasil ditambahkan dengan storage {$storageGb} GB";
             $messageType = 'success';
         } else {
@@ -291,6 +293,14 @@ function formatBytes($bytes) {
                     <div class="mb-3">
                         <label for="storage_gb" class="form-label">Storage Quota (GB)</label>
                         <input type="number" class="form-control" id="storage_gb" name="storage_gb" value="10" min="1" max="1000" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Peran</label>
+                        <select id="role" name="role" class="form-select">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <div class="form-text">Pilih 'Admin' untuk memberikan hak admin pada akun ini.</div>
                     </div>
                 </div>
                 <div class="modal-footer">
