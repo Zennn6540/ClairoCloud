@@ -1,0 +1,2683 @@
+  /* ========================================
+    CENTRALIZED APPLICATION STYLES
+    ======================================== */
+
+  /* === GLOBAL RESET === */
+  * {
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar img { 
+    max-width: 100%; 
+    height: auto; 
+  }
+
+  /* === FILE NAME TRUNCATION === */
+  .file-name-truncate {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    display: block !important;
+  }
+
+  .file-name-multiline {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+    max-width: 100%;
+  }
+
+  /* === FAVORITE BUTTON === */
+  .fav-btn.active i.fa-star { 
+    color: #ffc107; 
+  }
+
+  .fav-inline {
+    position: absolute;
+    right: 12px;
+    top: 48px;
+    background: transparent;
+    border: none;
+    color: #bdbdbd;
+    font-size: 18px;
+    z-index: 30;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .fav-inline:hover { 
+    color: #ffdd57; 
+  }
+
+  .fav-inline.active i.fa-star { 
+    color: #ffc107; 
+  }
+
+  /* === FILE LIST HEADER (for list view) === */
+  .file-list-header {
+    display: none;
+    width: 100%;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .file-list-header .col {
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .file-list-header .col-name { flex: 1.8; min-width: 220px; }
+  .file-list-header .col-owner { flex: 0.8; min-width: 120px; }
+  .file-list-header .col-modified { flex: 1.0; min-width: 140px; }
+  .file-list-header .col-size { flex: 0.6; min-width: 90px; text-align: right; }
+  .file-list-header .col-actions { flex: 0.4; min-width: 80px; text-align: center; }
+
+  #file-grid.list-view-mode > .file-list-header { 
+    display: flex; 
+  }
+
+  /* === FILE ROW COLUMNS (for list view) === */
+  .file-row-columns { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    width: 100%; 
+  }
+
+  .file-row-columns .col { 
+    padding: 0 8px; 
+  }
+
+  .file-row-columns .col-name { 
+    flex: 1.8; 
+    min-width: 220px; 
+  }
+
+  .file-row-columns .col-owner { 
+    flex: 0.8; 
+    min-width: 120px; 
+    color: var(--text-muted); 
+  }
+
+  .file-row-columns .col-modified { 
+    flex: 1.0; 
+    min-width: 140px; 
+    color: var(--text-muted); 
+  }
+
+  .file-row-columns .col-size { 
+    flex: 0.6; 
+    min-width: 90px; 
+    text-align: right; 
+    color: var(--text-muted); 
+  }
+
+  .file-row-columns .col-actions { 
+    flex: 0.4; 
+    min-width: 80px; 
+    text-align: center; 
+  }
+
+  /* === MORE BUTTON IN LIST VIEW === */
+  #file-grid.list-view-mode .more-btn { 
+    background: transparent; 
+    border: none; 
+    padding: 6px 8px; 
+    color: var(--text-muted); 
+    cursor: pointer;
+  }
+
+  #file-grid.list-view-mode .more-btn:hover {
+    color: var(--text-primary);
+  }
+
+  #file-grid.list-view-mode .more-btn i { 
+    font-size: 16px; 
+  }
+
+  /* === ICON FALLBACK === */
+  .file-card-inner img.icon-fallback { 
+    width: 48px; 
+    height: 48px; 
+    object-fit: contain; 
+  }
+  /* === DARK MODE CSS VARIABLES === */
+  :root {
+    --bg-primary: #f9f9f9;
+    --bg-card: #ffffff;
+    --text-primary: #333;
+    --text-muted: #999;
+    --border-color: #e0e0e0;
+    --sidebar-bg: #f4f4f4;
+    --sidebar-border: #ddd;
+    --accent-mint: #00f5d4;
+  }
+
+  body.dark-mode {
+    --bg-primary: #1a1a1a;
+    --bg-card: #2a2a2a;
+    --text-primary: #f0f0f0;
+    --text-muted: #999;
+    --border-color: #444;
+    --sidebar-bg: #1f1f1f;
+    --sidebar-border: #444;
+  }
+
+  /* === GLOBAL === */
+  body {
+    background-color: var(--bg-primary);
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* === SIDEBAR === */
+  .sidebar {
+    width: 260px;
+    height: 100vh;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 0 20px 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* Mobile responsiveness for sidebar */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .main {
+      margin-left: 0 !important;
+    }
+  }
+
+  /* === VIEW / PREVIEW TOGGLE - Rounded mint pill style (site-wide) === */
+  .view-toggle {
+    display: inline-flex !important;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .view-toggle .toggle-btn {
+    border-radius: 90px !important;
+    padding: 6px 10px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: 1px solid rgba(0,0,0,0.06) !important;
+    color: var(--text-muted) !important;
+    transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .view-toggle .toggle-btn:hover {
+    background: rgba(0,0,0,0.03) !important;
+    color: var(--text-primary) !important;
+  }
+
+  .view-toggle .toggle-btn.active {
+    background: var(--accent-mint) !important;
+    color: #fff !important;
+    border-color: rgba(0,0,0,0.06) !important;
+    box-shadow: 0 6px 18px rgba(0,245,212,0.12) !important;
+  }
+
+  /* Preview toggle specific small variant */
+  .view-toggle .preview-btn i { font-size: 14px !important; }
+
+
+  /* === LOGO CLARIO === */
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 20px;
+  }
+
+  .logo-text {
+    color: var(--text-primary);
+    transition: color 0.3s ease;
+  }
+
+  body.dark-mode .logo-text {
+    color: #ffffff;
+  }
+
+  .logo {
+    width: 45px;
+    height: auto;
+  }
+
+  .logo-text {
+    font-family: "Krona One", sans-serif;
+    font-size: 24px;
+    color: #333;
+    letter-spacing: 1px;
+  }
+
+  /* Mobile adjustments for logo */
+  @media (max-width: 768px) {
+    .logo-container {
+      justify-content: flex-start;
+      padding-left: 20px;
+    }
+    .logo-text {
+      font-size: 20px;
+    }
+    .logo {
+      width: 35px;
+    }
+  }
+
+  .logo-text .teal,
+  .logo-text .text-teal,
+  .text-teal {
+    color: #007364 !important;
+  }
+
+  /* === TOMBOL UPLOAD === */
+  .upload-btn {
+    background-color: #ffffff;
+    color: #000;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 85%;
+    margin: 10px auto 20px auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+  }
+
+  .upload-btn:hover {
+    background-color: #e9fafd;
+    transform: scale(1.03);
+  }
+
+  .upload-btn i {
+    font-size: 18px; /* ukuran ikon “+” */
+  }
+
+  /* Mobile adjustments for upload button */
+  @media (max-width: 768px) {
+    .upload-btn {
+      width: 90%;
+      font-size: 12px;
+      padding: 5px 12px;
+    }
+    .upload-btn i {
+      font-size: 16px;
+    }
+  }
+
+  /* === NAVIGASI === */
+  .sidebar .nav {
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar .nav-link {
+    color: var(--text-primary);
+    font-weight: 500;
+    border-radius: 0;
+    margin: 0;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    transition: all 0.2s ease;
+  }
+
+  .sidebar .nav-link.active,
+  .sidebar .nav-link:hover {
+    border-left: 4px solid #00f5d4;
+    background-color: #c8ecef;
+    color: #0f5b69;
+  }
+
+  /* Mobile adjustments for navigation */
+  @media (max-width: 768px) {
+    .sidebar .nav-link {
+      padding: 12px 20px;
+      font-size: 14px;
+    }
+    .sidebar .nav-link i {
+      font-size: 16px;
+    }
+  }
+
+  /* === PENYIMPANAN === */
+  .storage-section {
+    padding: 0 20px;
+  }
+
+  .progress {
+    height: 6px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+
+  .progress-bar {
+    background-color: #00bfa6;
+    border-radius: 10px;
+  }
+
+  /* === FILE CARD === */
+  .file-card {
+    background: #fff5f5;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .file-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* === SEARCH BAR === */
+  .search-bar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .search-bar input {
+    background-color: #d4dedf;
+    border: none;
+    color: #333;
+    border-radius: 50px;
+    padding: 8px 16px;
+    padding-right: 4rem; /* ruang kanan untuk ikon */
+    width: 300px;
+    transition: all 0.3s ease;
+  }
+
+  .search-bar input::placeholder {
+    color: #555;
+  }
+
+  .search-bar input:focus {
+    outline: none;
+    background-color: #c8d6d8;
+    box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.3);
+  }
+
+  /* Mobile adjustments for search bar */
+  @media (max-width: 768px) {
+    .search-bar input {
+      width: 200px;
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+  }
+
+  /* === IKON DALAM SEARCH BAR === */
+  .search-bar .list-icon {
+    position: absolute;
+    right: 1.6rem;
+    font-size: 1.15rem;
+    color: #4a4a4a;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    z-index: 2;
+  }
+
+  .search-bar .list-icon:hover {
+    color: #00bfa6;
+  }
+
+  /* === IKON LUAR (GEAR & USER) === */
+  .gear-icon {
+    font-size: 1.2rem;
+    color: #4a4a4a;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .gear-icon:hover {
+    color: #00bfa6;
+  }
+
+  .user-icon {
+    font-size: 1.05rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .user-icon:hover {
+    color: #00bfa6;
+  }
+
+  /* === APP BAR / HEADER === */
+  .app-bar {
+    padding: 0; 
+    position: fixed;
+    left: 260px;
+    right: 0;
+    top: 0;
+    height: 64px;
+    z-index: 1050;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+  }
+  .app-bar .app-bar-inner { width: 100%; padding: 0 18px; display:flex; align-items:center; }
+  .app-bar .app-bar-left { display:flex; align-items:center; gap:8px; }
+  .app-bar .app-bar-center { padding: 0 12px; }
+  .app-bar .app-bar-right { display:flex; align-items:center; gap:8px; }
+
+  .app-bar .search-bar { position: relative; width: 100%; }
+  .app-bar .search-bar input { width: 100%; padding: 10px 44px 10px 16px; border-radius: 999px; border: 1px solid var(--border-color); background: var(--bg-primary); }
+  .app-bar .list-toggle { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border-radius: 999px; border: none; background: transparent; color: var(--text-primary); }
+  .app-bar .list-toggle .list-icon { font-size: 16px; }
+
+  /* ensure main content sits below fixed app-bar */
+  .main { padding-top: 80px; }
+
+  /* Hide page-local search controls when global app-bar is present to avoid duplication */
+  /* But allow on index.php which doesn't have global app-bar */
+  .header-section .search-bar,
+  .header-controls .search-bar {
+    display: none !important;
+  }
+
+  /* Show search bar on index.php */
+  body#index-page .header-controls .search-bar {
+    display: flex !important;
+  }
+
+  /* Hide stray star icon in app-bar if present (prevents duplicate star in navbar) */
+  .app-bar .fa-star,
+  .app-bar .star-icon {
+    display: none !important;
+  }
+
+  /* Ensure list-toggle is on top and clickable */
+  .app-bar .list-toggle {
+    z-index: 2000;
+    cursor: pointer;
+  }
+
+  /* Give header-section a small top margin so title doesn't collide with fixed app-bar */
+  .header-section { margin-top: 6px; }
+
+  .header-section {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+  }
+
+  /* Mobile adjustments for header */
+  @media (max-width: 768px) {
+    .header-section {
+      padding: 10px;
+    }
+    .header-section h4 {
+      font-size: 18px;
+    }
+    .header-section p {
+      font-size: 14px;
+    }
+  }
+
+  /* === VIEW TOGGLE (GRID / LIST) === */
+  .view-toggle {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #000;
+    border-radius: 50px;
+    background-color: #fff;
+    padding: 3px;
+    width: fit-content;
+  }
+
+  .toggle-btn {
+    background: transparent;
+    border: none;
+    border-radius: 50px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .toggle-btn.active {
+    background-color: #c4eded;
+  }
+
+  .toggle-btn:hover {
+    background-color: #e9fafa;
+  }
+
+  /* Grid / List view modes for file grid */
+  #file-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important;
+    gap: 16px !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  #file-grid.list-view-mode {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  #file-grid.list-view-mode .file-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px 16px !important;
+    width: 100% !important;
+  }
+
+  #file-grid.list-view-mode .file-card {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    padding: 0 !important;
+    width: auto !important;
+    flex: 1 !important;
+    border-radius: 0 !important;
+    height: auto !important;
+  }
+
+  #file-grid.grid-view-mode .file-item {
+    display: block !important;
+  }
+
+  #file-grid.grid-view-mode .file-card {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+  }
+
+  #file-grid.list-view-mode .file-thumb {
+    flex-shrink: 0 !important;
+    width: 50px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  #file-grid.list-view-mode .file-name-multiline {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    flex-grow: 1 !important;
+    margin: 0 !important;
+  }
+
+  /* Grid view card styling */
+  #file-grid.grid-view-mode .file-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    height: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #file-grid.grid-view-mode .file-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+  }
+
+  #file-grid.grid-view-mode .file-card:hover .card-overlay {
+    opacity: 1;
+    display: flex;
+  }
+
+  /* File card inner (image/icon area) */
+  .file-card-inner {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .file-card-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* File thumbnail */
+  .file-thumbnail {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .file-thumbnail img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+  }
+
+  /* More button (ellipsis) */
+  .more-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    background: none;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .more-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+  }
+
+  /* File info (name and size) */
+  .file-info {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .file-name {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+    color: #222;
+  }
+
+  .file-size {
+    margin: 0;
+    font-size: 11px;
+    color: #999;
+    margin-top: auto;
+  }
+
+  #file-grid.grid-view-mode .file-thumb {
+    min-height: 80px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  #file-grid.grid-view-mode .file-name {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+  }
+
+  #file-grid.grid-view-mode .file-size {
+    font-size: 11px;
+    color: #999;
+  }
+
+  /* List view card styling */
+  #file-grid.list-view-mode .file-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+  }
+
+  #file-grid.list-view-mode .file-card:hover {
+    background: #f9f9f9;
+  }
+
+  /* Dark mode support */
+  body.dark-mode #file-grid.grid-view-mode .file-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  body.dark-mode #file-grid.grid-view-mode .file-card-inner {
+    background: #333;
+    border-bottom-color: var(--border-color);
+  }
+
+  body.dark-mode .file-card-inner {
+    background: #333;
+  }
+
+  body.dark-mode #file-grid.list-view-mode .file-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+  }
+
+  body.dark-mode #file-grid.list-view-mode .file-card:hover {
+    background: var(--bg-primary);
+  }
+
+  body.dark-mode .file-name {
+    color: var(--text-primary);
+  }
+
+  body.dark-mode .file-size {
+    color: var(--text-muted);
+  }
+
+  /* Mobile adjustments for view toggle */
+  @media (max-width: 768px) {
+    .view-toggle {
+      padding: 2px;
+    }
+    .toggle-btn {
+      padding: 3px 8px;
+      font-size: 12px;
+    }
+  }
+
+  /* (untuk tombol Bootstrap jika masih dipakai di bagian lain) */
+  .view-switch .btn {
+    border-radius: 10px;
+    transition: 0.2s;
+  }
+
+  .view-switch .btn.active,
+  .view-switch .btn:hover {
+    background-color: #0dcaf0;
+    color: white;
+  }
+
+  /* === DARK MODE STYLING FOR ALL ELEMENTS === */
+  body.dark-mode .file-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+  }
+
+  body.dark-mode .card,
+  body.dark-mode .modal-content,
+  body.dark-mode .form-control,
+  body.dark-mode textarea {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+  }
+
+  body.dark-mode table {
+    color: var(--text-primary);
+  }
+
+  body.dark-mode thead {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+  }
+
+  body.dark-mode tbody tr {
+    border-color: var(--border-color) !important;
+  }
+
+  body.dark-mode tbody tr:hover {
+    background-color: var(--bg-card) !important;
+  }
+
+  body.dark-mode .search-bar input {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+  }
+
+  body.dark-mode .search-bar input::placeholder {
+    color: var(--text-muted);
+  }
+
+  body.dark-mode .search-bar input:focus {
+    background-color: var(--bg-card);
+    border-color: #0dcaf0;
+  }
+
+  body.dark-mode .header-section {
+    border-bottom-color: var(--border-color);
+  }
+
+  body.dark-mode .view-toggle {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+  }
+
+  body.dark-mode .more-menu {
+    background: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  body.dark-mode .more-menu .more-item:hover {
+    background: var(--bg-primary) !important;
+  }
+
+  body.dark-mode .storage {
+    color: var(--text-primary);
+  }
+
+  body.dark-mode .text-muted {
+    color: var(--text-muted) !important;
+  }
+
+  body.dark-mode .modal-header {
+    border-bottom-color: var(--border-color);
+  }
+
+  body.dark-mode .modal-footer {
+    border-top-color: var(--border-color);
+  }
+
+  body.dark-mode .btn-outline-primary,
+  body.dark-mode .btn-outline-secondary,
+  body.dark-mode .btn-outline-info {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+  }
+
+  body.dark-mode .btn-outline-primary:hover {
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+    color: #000;
+  }
+
+  body.dark-mode .progress {
+    background-color: var(--border-color);
+  }
+
+  /* === MAIN CONTENT === */
+  .main {
+    margin-left: 260px;
+    padding: 20px;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    width: calc(100% - 260px);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* === MAIN CONTENT MOBILE ADJUSTMENTS === */
+  @media (max-width: 768px) {
+    .main {
+      margin-left: 0 !important;
+      padding: 20px 10px;
+      width: 100% !important;
+    }
+    .main h4 {
+      font-size: 20px;
+    }
+    .main p {
+      font-size: 14px;
+    }
+  }
+
+  /* === FILE CARDS MOBILE ADJUSTMENTS === */
+  @media (max-width: 768px) {
+    .file-card {
+      margin-bottom: 10px;
+    }
+    .file-name {
+      font-size: 12px !important;
+    }
+    .file-size {
+      font-size: 10px !important;
+    }
+  }
+
+  /* === SEARCH AND FILTER INPUTS === */
+  #file-search-input {
+    width: 260px !important;
+    max-width: 100%;
+    display: block !important;
+    padding: 8px 12px !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px !important;
+    background-color: #f5f5f5 !important;
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  #file-search-input:focus {
+    outline: none !important;
+    border-color: #007bff !important;
+    background-color: #fff !important;
+  }
+
+  #category-filter {
+    width: 150px !important;
+    max-width: 100%;
+    display: block !important;
+    padding: 8px 12px !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 6px !important;
+    background-color: #fff !important;
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+    cursor: pointer;
+  }
+
+  #category-filter:focus {
+    outline: none !important;
+    border-color: #007bff !important;
+  }
+
+  /* Header controls container */
+  .header-section > div:last-child {
+    display: flex !important;
+    gap: 8px !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+  }
+
+  /* Shared styles for search bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f5f5f5;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px 12px;
+  }
+
+  .search-bar input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+
+  .search-bar input::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* Shared styles for category filter */
+  .category-filter,
+  select.form-select {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: #fff;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .category-filter:focus,
+  select.form-select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  /* Shared styles for view switcher */
+  .view-toggle {
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: #fff;
+    overflow: hidden;
+  }
+
+  .view-toggle .toggle-btn {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+
+  .view-toggle .toggle-btn:hover {
+    background-color: #f0f0f0;
+  }
+
+  .view-toggle .toggle-btn.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  .view-toggle .toggle-btn.active:hover {
+    background-color: #0056b3;
+  }
+
+  /* Shared styles for file row */
+  .file-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-card);
+  }
+
+  .file-row .file-name {
+    flex-grow: 1;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+  }
+
+  .file-row .file-owner,
+  .file-row .file-date,
+  .file-row .file-size {
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .file-row .file-more {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  /* === MOBILE RESPONSIVE ADJUSTMENTS === */
+  @media (max-width: 768px) {
+    #file-search-input {
+      width: 200px !important;
+      font-size: 13px !important;
+    }
+    
+    #category-filter {
+      width: 130px !important;
+      font-size: 13px !important;
+    }
+    
+    .header-section > div:last-child {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #file-search-input {
+      width: 100% !important;
+      min-width: 150px;
+    }
+    
+    #category-filter {
+      width: 100% !important;
+      min-width: 120px;
+    }
+    
+    .header-section > div:last-child {
+      flex-direction: column;
+      align-items: stretch !important;
+    }
+    
+    .header-section > div:last-child > div:first-child {
+      width: 100%;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .view-toggle {
+      width: 100%;
+    }
+  }
+
+
+  /* css favorit */
+  /* Favorit Page Styles */
+  .header-controls {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+  }
+
+  .search-filter-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+  }
+
+  .search-wrapper {
+      position: relative;
+      width: 280px;
+  }
+
+  .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+      z-index: 3;
+  }
+
+  .search-input {
+      padding-left: 40px;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      height: 40px;
+  }
+
+  .search-input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+  }
+
+  .category-select {
+      width: 160px;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      height: 40px;
+      transition: all 0.2s ease;
+  }
+
+  .category-select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+  }
+
+  /* View Toggle */
+  .view-toggle {
+      display: flex;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      background-color: #fff;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .view-toggle::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 1px;
+      height: 60%;
+      background-color: #dee2e6;
+  }
+
+  .toggle-btn {
+      background: none;
+      border: none;
+      padding: 10px 14px;
+      cursor: pointer;
+      color: #6c757d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      transition: all 0.2s ease;
+      border-radius: 0;
+      position: relative;
+      z-index: 1;
+  }
+
+  .toggle-btn:hover {
+      background-color: #f8f9fa;
+      color: #495057;
+  }
+
+  .toggle-btn.active {
+      background-color: #007bff;
+      color: white;
+  }
+
+  .toggle-btn.active:hover {
+      background-color: #0056b3;
+  }
+
+  .toggle-btn:first-child {
+      border-radius: 7px 0 0 7px;
+  }
+
+  .toggle-btn:last-child {
+      border-radius: 0 7px 7px 0;
+  }
+
+  /* Stats Section */
+  .stats-section {
+      margin-bottom: 24px;
+  }
+
+  .stats-grid {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+  }
+
+  .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      min-width: 200px;
+      transition: transform 0.2s ease;
+  }
+
+  .stat-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .stat-icon {
+      font-size: 24px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: #f8f9fa;
+  }
+
+  .stat-content {
+      flex: 1;
+  }
+
+  .stat-number {
+      font-size: 18px;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 4px;
+  }
+
+  .stat-label {
+      font-size: 12px;
+      color: #6c757d;
+  }
+
+  /* File Grid Container */
+  .file-grid-container {
+      transition: all 0.3s ease;
+  }
+
+  /* Grid View */
+  #file-grid.grid-view-mode {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+  }
+
+  #file-grid.grid-view-mode .file-item {
+      display: block;
+      height: 200px;
+  }
+
+  #file-grid.grid-view-mode .file-card {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      height: 100%;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+  }
+
+  #file-grid.grid-view-mode .file-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border-color: #007bff;
+  }
+
+  /* REMOVED: conflicting card-overlay rules moved to file-grid.css */
+
+  #file-grid.grid-view-mode .file-card .file-thumbnail {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  }
+
+  #file-grid.grid-view-mode .file-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+  }
+
+  #file-grid.grid-view-mode .file-card .file-icon {
+      font-size: 40px;
+      color: #6c757d;
+  }
+
+  #file-grid.grid-view-mode .file-card .file-info {
+      padding-top: 8px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+  }
+
+  #file-grid.grid-view-mode .file-card .file-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #212529;
+      line-height: 1.3;
+  }
+
+  #file-grid.grid-view-mode .file-card .file-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+  }
+
+  #file-grid.grid-view-mode .file-card .file-size {
+      color: #6c757d;
+      font-weight: 500;
+  }
+
+  #file-grid.grid-view-mode .file-card .file-category {
+      color: #007bff;
+      background: #e7f1ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+  }
+
+  /* List View */
+  #file-grid.list-view-mode {
+      display: block;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      overflow: hidden;
+      border: 1px solid #e9ecef;
+  }
+
+  #file-grid.list-view-mode .file-item {
+      display: block;
+      margin-bottom: 0;
+      transition: background-color 0.2s ease;
+  }
+
+  #file-grid.list-view-mode .file-item:not(:last-child) {
+      border-bottom: 1px solid #f1f3f4;
+  }
+
+  #file-grid.list-view-mode .file-item:hover {
+      background-color: #f8f9fa;
+  }
+
+  #file-grid.list-view-mode .file-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      text-align: left;
+      border-radius: 0;
+      transition: background-color 0.2s ease;
+  }
+
+  #file-grid.list-view-mode .file-card .file-thumbnail {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      overflow: hidden;
+  }
+
+  #file-grid.list-view-mode .file-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+  }
+
+  #file-grid.list-view-mode .file-card .file-icon {
+      font-size: 20px;
+      color: #6c757d;
+  }
+
+  #file-grid.list-view-mode .file-card .file-info {
+      flex-grow: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+  }
+
+  #file-grid.list-view-mode .file-card .file-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+      color: #212529;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 400px;
+  }
+
+  #file-grid.list-view-mode .file-card .file-meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+  }
+
+  #file-grid.list-view-mode .file-card .file-size {
+      font-size: 12px;
+      color: #6c757d;
+      font-weight: 500;
+  }
+
+  #file-grid.list-view-mode .file-card .file-category {
+      font-size: 11px;
+      color: #007bff;
+      background: #e7f1ff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 500;
+  }
+
+  #file-grid.list-view-mode .file-card .card-overlay {
+      position: static;
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      opacity: 1;
+      transform: none;
+  }
+
+  #file-grid.list-view-mode .file-card .card-overlay .btn-action {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      color: #6c757d;
+      transition: all 0.2s ease;
+  }
+
+  #file-grid.list-view-mode .file-card .card-overlay .btn-action:hover {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+  }
+
+  /* Favorite Button States */
+  .fav-btn.active {
+      color: #ffc107 !important;
+      background: #fff3cd !important;
+      border-color: #ffc107 !important;
+  }
+
+  .fav-btn.active:hover {
+      color: #856404 !important;
+      background: #ffeaa7 !important;
+  }
+
+  /* Empty State */
+  .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+  }
+
+  .empty-image {
+      max-width: 280px;
+      opacity: 0.8;
+      margin-bottom: 20px;
+  }
+
+  .empty-text {
+      color: #6c757d;
+      font-size: 16px;
+  }
+
+  /* No Results */
+  .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: #6c757d;
+  }
+
+  .no-results i {
+      color: #dee2e6;
+      margin-bottom: 16px;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+      .header-controls {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+      }
+      
+      .search-filter-group {
+          width: 100%;
+      }
+      
+      .search-wrapper {
+          flex: 1;
+          min-width: 200px;
+      }
+      
+      #file-grid.grid-view-mode {
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 16px;
+      }
+  }
+
+  @media (max-width: 768px) {
+      .stats-grid {
+          gap: 16px;
+      }
+      
+      .stat-item {
+          min-width: calc(50% - 8px);
+          flex: 1;
+      }
+      
+      .search-wrapper {
+          width: 100%;
+      }
+      
+      .category-select {
+          width: 140px;
+      }
+      
+      #file-grid.grid-view-mode {
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          gap: 12px;
+      }
+      
+      #file-grid.grid-view-mode .file-item {
+          height: 180px;
+      }
+      
+      #file-grid.grid-view-mode .file-card .file-thumbnail {
+          height: 80px;
+      }
+  }
+
+  @media (max-width: 576px) {
+      .stats-grid {
+          flex-direction: column;
+      }
+      
+      .stat-item {
+          min-width: 100%;
+      }
+      
+      .search-filter-group {
+          flex-direction: column;
+          width: 100%;
+      }
+      
+      .search-wrapper,
+      .category-select {
+          width: 100%;
+      }
+      
+      #file-grid.grid-view-mode {
+          grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+          gap: 12px;
+      }
+      
+      #file-grid.grid-view-mode .file-item {
+          height: 160px;
+      }
+      
+      #file-grid.grid-view-mode .file-card {
+          padding: 12px;
+      }
+      
+      #file-grid.grid-view-mode .file-card .file-thumbnail {
+          height: 70px;
+      }
+      
+      #file-grid.list-view-mode .file-card {
+          padding: 12px 16px;
+      }
+      
+      #file-grid.list-view-mode .file-card .file-info {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+      }
+      
+      #file-grid.list-view-mode .file-card .file-meta {
+          width: 100%;
+          justify-content: space-between;
+      }
+  }
+
+  /* Animation for file items */
+  .file-item {
+      transition: all 0.3s ease;
+  }
+
+  .file-item.favorited {
+      order: -1;
+  }
+
+  /* Loading states */
+  .file-card.loading {
+      opacity: 0.6;
+      pointer-events: none;
+  }
+
+  /* Selection states */
+  .file-card.selected {
+      border-color: #007bff;
+      background-color: #f0f8ff;
+  }
+
+  /* css file-grid  */
+  /* Shared File Grid & List View Styles */
+  /* Used by: index.php, favorit.php, sampah.php, semuafile.php */
+
+  /* ============================================
+    VIEW TOGGLE BUTTON STYLES
+    ============================================ */
+  .view-toggle {
+      display: flex;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      background-color: #fff;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .view-toggle::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 1px;
+      height: 60%;
+      background-color: #dee2e6;
+  }
+
+  .toggle-btn {
+      background: none;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: #6c757d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      transition: all 0.2s ease;
+      border-radius: 0;
+      font-size: 14px;
+  }
+
+  .toggle-btn:hover {
+      background-color: #f8f9fa;
+      color: #495057;
+  }
+
+  .toggle-btn.active {
+      background-color: #007bff;
+      color: white;
+  }
+
+  .toggle-btn.active:hover {
+      background-color: #0056b3;
+  }
+
+  .toggle-btn:first-child {
+      border-radius: 5px 0 0 5px;
+  }
+
+  .toggle-btn:last-child {
+      border-radius: 0 5px 5px 0;
+  }
+
+  /* ============================================
+    GRID VIEW MODE STYLES
+    ============================================ */
+  #file-grid.grid-view-mode {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
+      padding: 12px 0;
+  }
+
+  #file-grid.grid-view-mode .file-item {
+      display: block;
+  }
+
+  #file-grid.grid-view-mode .file-card {
+      background: #fff;
+      border: 1px solid #e6e6e6;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+  }
+
+  #file-grid.grid-view-mode .file-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+  }
+
+  #file-grid.grid-view-mode .file-card-inner {
+      position: relative;
+      width: 100%;
+      height: 110px;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+  }
+
+  #file-grid.grid-view-mode .file-card-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+
+  #file-grid.grid-view-mode .file-card-inner i {
+      font-size: 48px;
+      color: #ddd;
+  }
+
+  #file-grid.grid-view-mode .card-overlay {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 20;
+      pointer-events: none;
+  }
+
+  #file-grid.grid-view-mode .file-item:hover .card-overlay {
+      opacity: 1;
+      pointer-events: auto;
+  }
+
+  #file-grid.grid-view-mode .card-overlay .btn {
+      padding: 6px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #ddd;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s ease;
+  }
+
+  #file-grid.grid-view-mode .card-overlay .btn:hover {
+      background: #fff;
+      border-color: #bbb;
+  }
+
+  #file-grid.grid-view-mode .file-info {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+  }
+
+  #file-grid.grid-view-mode .file-name {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-break: break-word;
+      color: #222;
+  }
+
+  #file-grid.grid-view-mode .file-size {
+      margin: 0;
+      font-size: 11px;
+      color: #999;
+      margin-top: auto;
+  }
+
+  /* ============================================
+    LIST VIEW MODE STYLES
+    ============================================ */
+  #file-grid.list-view-mode {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0;
+      padding: 0;
+  }
+
+  #file-grid.list-view-mode .file-list-header {
+      display: grid;
+      grid-template-columns: 1fr 150px 140px 100px 80px;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 16px;
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-bottom: 2px solid #dee2e6;
+      border-radius: 6px 6px 0 0;
+      font-weight: 600;
+      font-size: 13px;
+      color: #495057;
+      margin-bottom: 0;
+  }
+
+  #file-grid.list-view-mode .file-list-header .col {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+  }
+
+  #file-grid.list-view-mode .file-list-header i {
+      color: #6c757d;
+      font-size: 12px;
+  }
+
+  #file-grid.list-view-mode .file-item {
+      display: block;
+      border: 1px solid #dee2e6;
+      border-top: none;
+  }
+
+  #file-grid.list-view-mode .file-item:last-child .file-card {
+      border-radius: 0 0 6px 6px;
+  }
+
+  #file-grid.list-view-mode .file-card {
+      display: grid;
+      grid-template-columns: 1fr 150px 140px 100px 80px;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 16px;
+      background: #fff;
+      height: auto;
+      position: relative;
+      transition: all 0.15s ease;
+  }
+
+  #file-grid.list-view-mode .file-card:hover {
+      background-color: #f8f9fa;
+  }
+
+  #file-grid.list-view-mode .file-card-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: auto;
+      height: auto;
+      background: transparent;
+  }
+
+  #file-grid.list-view-mode .file-card-inner img {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex-shrink: 0;
+  }
+
+  #file-grid.list-view-mode .file-card-inner i {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0dcaf0;
+      flex-shrink: 0;
+  }
+
+  #file-grid.list-view-mode .file-info {
+      padding: 0;
+      gap: 2px;
+  }
+
+  #file-grid.list-view-mode .file-name {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: #222;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      width: 100%;
+  }
+
+  #file-grid.list-view-mode .file-size {
+      margin: 0;
+      font-size: 12px;
+      color: #999;
+      white-space: nowrap;
+  }
+
+  #file-grid.list-view-mode .file-row-columns {
+      display: contents;
+  }
+
+  #file-grid.list-view-mode .col {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 13px;
+  }
+
+  #file-grid.list-view-mode .col-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: normal;
+      overflow: visible;
+  }
+
+  #file-grid.list-view-mode .col-owner,
+  #file-grid.list-view-mode .col-modified,
+  #file-grid.list-view-mode .col-size {
+      color: #666;
+      justify-content: flex-start;
+      text-align: left;
+  }
+
+  #file-grid.list-view-mode .col-actions {
+      justify-content: flex-end;
+  }
+
+  #file-grid.list-view-mode .more-btn {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      color: #6c757d;
+      padding: 6px 10px;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      font-size: 12px;
+  }
+
+  #file-grid.list-view-mode .more-btn:hover {
+      background: #e9ecef;
+      border-color: #aaa;
+      color: #495057;
+  }
+
+  #file-grid.list-view-mode .card-overlay {
+      display: none !important;
+  }
+
+  /* ============================================
+    MORE BUTTON & MENU
+    ============================================ */
+  .more-btn {
+      background: none;
+      border: none;
+      padding: 6px;
+      border-radius: 4px;
+      color: #6c757d;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .more-btn:hover {
+      background-color: #f0f0f0;
+      color: #495057;
+  }
+
+  #file-grid.grid-view-mode .more-btn {
+      display: none;
+  }
+
+  #file-grid.grid-view-mode .file-item:hover .more-btn {
+      display: inline-flex;
+  }
+
+  .more-menu {
+      position: fixed;
+      min-width: 160px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      z-index: 10000;
+      display: none;
+      padding: 6px 0;
+      transform-origin: top right;
+  }
+
+  .more-menu.show {
+      display: block;
+      animation: _menuPop 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes _menuPop {
+      from {
+          opacity: 0;
+          transform: translateY(-8px) scale(0.95);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+      }
+  }
+
+  .more-menu .more-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 13px;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      color: #222;
+      transition: background-color 0.15s ease;
+  }
+
+  .more-menu .more-item:hover {
+      background-color: #f0f6ff;
+  }
+
+  .more-menu .more-item i {
+      width: 16px;
+      text-align: center;
+      color: #666;
+      font-size: 13px;
+  }
+
+  .more-menu .more-item:hover i {
+      color: #007bff;
+  }
+
+  /* ============================================
+    FAVORITED & UTILITY CLASSES
+    ============================================ */
+  .file-item.favorited {
+      order: -1;
+  }
+
+  .file-item.menu-open {
+      background-color: #f0f6ff;
+  }
+
+  /* ============================================
+    RESPONSIVE STYLES
+    ============================================ */
+  @media (max-width: 1024px) {
+      #file-grid.grid-view-mode {
+          grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+          gap: 14px;
+      }
+
+      #file-grid.list-view-mode .file-list-header,
+      #file-grid.list-view-mode .file-card {
+          grid-template-columns: 1fr 130px 120px 90px 70px;
+      }
+  }
+
+  @media (max-width: 768px) {
+      #file-grid.grid-view-mode {
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          gap: 12px;
+      }
+
+      #file-grid.grid-view-mode .file-card-inner {
+          height: 90px;
+      }
+
+      #file-grid.list-view-mode .file-list-header,
+      #file-grid.list-view-mode .file-card {
+          grid-template-columns: 1fr 110px 100px 80px 60px;
+          padding: 10px 12px;
+          gap: 10px;
+          font-size: 12px;
+      }
+
+      #file-grid.list-view-mode .col {
+          font-size: 12px;
+      }
+
+      #file-grid.list-view-mode .col-name {
+          gap: 6px;
+      }
+
+      #file-grid.list-view-mode .more-btn {
+          padding: 5px 8px;
+          font-size: 11px;
+      }
+
+      .view-toggle {
+          transform: scale(0.95);
+      }
+
+      .toggle-btn {
+          padding: 6px 10px;
+      }
+  }
+
+  @media (max-width: 480px) {
+      #file-grid.grid-view-mode {
+          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+          gap: 10px;
+      }
+
+      #file-grid.grid-view-mode .file-card-inner {
+          height: 80px;
+      }
+
+      #file-grid.grid-view-mode .file-name {
+          font-size: 11px;
+      }
+
+      #file-grid.grid-view-mode .file-size {
+          font-size: 10px;
+      }
+
+      #file-grid.list-view-mode {
+          display: flex !important;
+          flex-direction: column;
+      }
+
+      #file-grid.list-view-mode .file-list-header {
+          display: none;
+      }
+
+      #file-grid.list-view-mode .file-card {
+          display: flex;
+          flex-direction: column;
+          grid-template-columns: unset;
+          gap: 8px;
+          padding: 12px;
+          border-radius: 6px;
+          margin-bottom: 8px;
+      }
+
+      #file-grid.list-view-mode .file-card-inner {
+          display: flex;
+          width: 100%;
+          gap: 10px;
+      }
+
+      #file-grid.list-view-mode .file-info {
+          flex: 1;
+      }
+
+      #file-grid.list-view-mode .file-row-columns {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          width: 100%;
+      }
+
+      #file-grid.list-view-mode .col {
+          padding: 6px;
+          background: #f5f5f5;
+          border-radius: 4px;
+          font-size: 11px;
+      }
+
+      #file-grid.list-view-mode .col-actions {
+          grid-column: 1 / -1;
+      }
+
+      .view-toggle {
+          width: 96px;
+      }
+
+      .toggle-btn {
+          padding: 6px;
+          font-size: 12px;
+      }
+  }
+
+  /* ============================================
+    DARK MODE SUPPORT (if implemented)
+    ============================================ */
+  :root.dark-mode #file-grid.list-view-mode .file-list-header {
+      background: #2d3436;
+      border-color: #3f4a5a;
+      color: #b0b8c1;
+  }
+
+  :root.dark-mode #file-grid.list-view-mode .file-card {
+      background: #1e1e2e;
+      border-color: #3f4a5a;
+      color: #e4e6eb;
+  }
+
+  :root.dark-mode #file-grid.list-view-mode .file-card:hover {
+      background: #2d3436;
+  }
+
+  :root.dark-mode .more-menu {
+      background: #2d3436;
+      border-color: #3f4a5a;
+      color: #e4e6eb;
+  }
+
+  :root.dark-mode .more-menu .more-item {
+      color: #e4e6eb;
+  }
+
+  :root.dark-mode .more-menu .more-item:hover {
+      background-color: #3f4a5a;
+  }
+
+  :root.dark-mode #file-grid.grid-view-mode .file-card {
+      background: #1e1e2e;
+      border-color: #3f4a5a;
+  }
+
+  :root.dark-mode #file-grid.grid-view-mode .file-name,
+  :root.dark-mode #file-grid.list-view-mode .file-name {
+      color: #e4e6eb;
+  }
+
+  :root.dark-mode #file-grid.grid-view-mode .file-size,
+  :root.dark-mode #file-grid.list-view-mode .file-size,
+  :root.dark-mode #file-grid.list-view-mode .col-owner,
+  :root.dark-mode #file-grid.list-view-mode .col-modified,
+  :root.dark-mode #file-grid.list-view-mode .col-size {
+      color: #8892a1;
+  }
+
+
+  /* css sidebar  */
+  /* Sidebar Styles */
+  .sidebar {
+      min-height: 100vh;
+      /* use theme variables so toggle controls sidebar color */
+      background: var(--sidebar-bg, #1a1a1a);
+      color: var(--text-primary, #fff);
+      width: 260px;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      position: fixed;
+      z-index: 1000;
+  }
+
+  .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--sidebar-border, rgba(255,255,255,0.08));
+  }
+
+  .sidebar-brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary, #fff);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+  }
+
+  .sidebar-nav {
+      padding: 16px 0;
+  }
+
+    .sidebar-item {
+      padding: 12px 20px;
+      color: var(--text-primary, rgba(255,255,255,0.9));
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background-color 0.15s ease, color 0.15s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-item:hover {
+      color: var(--text-primary, #fff);
+      background: rgba(0,0,0,0.04);
+      border-left-color: rgba(0,0,0,0.06);
+    }
+
+    .sidebar-item.active {
+      color: var(--text-primary, #fff);
+      background: rgba(0,0,0,0.06);
+      border-left-color: #0d6efd;
+    }
+
+  .sidebar-item i {
+      width: 20px;
+      text-align: center;
+  }
+
+  .main {
+      margin-left: 260px;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+  }
+
+  /* Responsive Sidebar */
+  @media (max-width: 768px) {
+      .sidebar {
+          transform: translateX(-100%);
+          width: 280px;
+      }
+      
+      .sidebar.mobile-open {
+          transform: translateX(0);
+      }
+      
+      .main {
+          margin-left: 0;
+      }
+      
+      .sidebar-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0,0,0,0.5);
+          z-index: 999;
+          display: none;
+      }
+      
+      .sidebar-overlay.mobile-open {
+          display: block;
+      }
+  }
+
+  /* css files  */
+
+  /* Shared file listing styles for grid + list view, search, filters, header, actions */
+  :root{
+      --primary: #0d6efd;
+      --muted: #6c757d;
+      --card-bg: #fff;
+      --border: #dee2e6;
+  }
+
+  /* Layout area */
+  .files-header {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:16px;
+      flex-wrap:wrap;
+  }
+
+  .files-controls {
+      display:flex;
+      gap:8px;
+      align-items:center;
+  }
+
+  .search-input {
+      min-width:240px;
+      max-width:100%;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:var(--card-bg);
+      border:1px solid var(--border);
+      padding:6px 10px;
+      border-radius:6px;
+  }
+
+  /* category chips */
+  .category-chip {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      background:transparent;
+      border-radius:20px;
+      border:1px solid transparent;
+      cursor:pointer;
+      color:var(--muted);
+      font-size:13px;
+  }
+  .category-chip.active{
+      background:var(--primary);
+      color:#fff;
+      border-color:var(--primary);
+  }
+
+  /* View toggle */
+  .view-toggle { border:1px solid var(--border); border-radius:8px; background:#fff; display:inline-flex; padding:4px; }
+  .view-toggle button { border:0; padding:6px 10px; cursor:pointer; background:transparent; color:var(--muted); border-radius:6px; }
+  .view-toggle button.active { background:var(--primary); color:#fff; }
+
+  /* file grid/list */
+  #file-grid { transition:all .15s ease; display:grid; gap:12px; }
+  #file-grid.grid-view-mode { grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); }
+  #file-grid.list-view-mode { display:block; }
+
+  /* header row for list view */
+  .list-header {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:8px 12px;
+      border-bottom:1px solid var(--border);
+      background:#f8f9fa;
+      font-weight:600;
+      font-size:13px;
+  }
+  .list-header .col {flex:1;}
+  .list-header .col.name { flex: 3; }
+  .list-header .col.actions { width:160px; text-align:right; }
+
+  /* file item */
+  .file-item { background:var(--card-bg); border:1px solid var(--border); border-radius:8px; padding:10px; display:flex; flex-direction:column; gap:8px; align-items:center; }
+  .list-view-mode .file-item { display:flex; flex-direction:row; align-items:center; gap:12px; padding:12px; border-radius:0; border-bottom:1px solid var(--border); }
+  .file-icon { width:48px; height:48px; object-fit:contain; }
+  .file-info { display:flex; flex-direction:column; gap:2px; flex:1; min-width:0; }
+  .file-name { font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .file-meta { color:var(--muted); font-size:13px; }
+
+  .more-actions { display:flex; gap:6px; justify-content:flex-end; align-items:center; }
+
+  /* small responsive tweaks */
+  @media(max-width:768px){
+      .search-input { min-width:160px; }
+      .list-header .col.actions { display:none; }
+  }
+
+  /* =========================
+   File card - More top-left
+   ========================= */
+
+/* pastikan tidak mengubah sidebar */
+/* Top action container now pinned to top-left instead of top-right */
+.file-card .top-actions {
+  position: absolute;
+  top: 10px;
+  left: 10px;              /* <-- TOP-LEFT position */
+  right: auto;
+  display: flex;
+  gap: 8px;
+  z-index: 30;
+  align-items: center;
+}
+
+/* Favorit kept but moved to top-right and less prominent */
+.file-card .corner-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;             /* top-right for favorite (and optional small controls) */
+  display: flex;
+  gap: 8px;
+  z-index: 30;
+  align-items: center;
+}
+
+/* Style for more button - visually prominent but small */
+.file-card .more-btn {
+  background: white;
+  border: 1px solid #e9ecef;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: transform .12s ease, background .12s ease;
+}
+.file-card .more-btn:hover { transform: translateY(-2px); }
+
+/* Favorit button (small) on top-right */
+.file-card .btn-fav {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.file-card .btn-fav.active { background: #fff8e6; color: #b28500; border-color:#ffd966; }
+
+/* Hide inline delete in card to prevent accidental deletion.
+   Delete will be available inside More menu (safer). */
+.file-card .btn-delete {
+  display: none !important;
+}
+
+/* if in some places you still want a visible delete, use .btn-delete-visible */
+.file-card .btn-delete-visible {
+  display: inline-flex !important;
+}
+
+/* ensure overlay doesn't cover thumbnail when in grid */
+.file-card .card-overlay {
+  right: 10px;
+  top: 46px;
+}
+
+/* small responsiveness */
+@media (max-width: 768px) {
+  .file-card .top-actions { top: 8px; left: 8px; }
+  .file-card .corner-actions { top: 8px; right: 8px; }
+  .file-card .more-btn, .file-card .btn-fav { width: 32px; height: 32px; }
+}
+
+/* Accessibility focus */
+.file-card .more-btn:focus, .file-card .btn-fav:focus {
+  outline: 3px solid rgba(0,191,166,0.2);
+  outline-offset: 2px;
+}
